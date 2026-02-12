@@ -1,0 +1,21 @@
+{
+  "apps": [{
+    "name": "negocio360-api",
+    "script": "server.js",
+    "cwd": "/var/www/server/Negocio360",
+    "instances": 1,
+    "exec_mode": "fork",
+    "env": {
+      "NODE_ENV": "production",
+      "PORT": 2018
+    },
+    "error_file": "/var/log/pm2/negocio360-error.log",
+    "out_file": "/var/log/pm2/negocio360-out.log",
+    "log_date_format": "YYYY-MM-DD HH:mm:ss Z",
+    "merge_logs": true,
+    "autorestart": true,
+    "watch": false,
+    "max_memory_restart": "500M",
+    "restart_delay": 4000
+  }]
+}

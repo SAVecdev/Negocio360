@@ -1,0 +1,126 @@
+### ========================================
+### API Negocio360 - Ejemplos de peticiones
+### Usa REST Client de VS Code o similar
+### ========================================
+
+@baseUrl = https://localhost:2018/api
+@token = tu-token-aqui
+
+### ========================================
+### HEALTH CHECK
+### ========================================
+
+### Health Check
+GET {{baseUrl}}/health
+
+### ========================================
+### AUTENTICACIÓN
+### ========================================
+
+### Registro de usuario
+POST {{baseUrl}}/auth/registro
+Content-Type: application/json
+
+{
+  "email": "test@ejemplo.com",
+  "password": "password123",
+  "datos_usuario": {
+    "nombre": "Usuario Test",
+    "rol": "admin"
+  }
+}
+
+### Login
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@ejemplo.com",
+  "password": "password123"
+}
+
+### Logout
+POST {{baseUrl}}/auth/logout
+Authorization: Bearer {{token}}
+
+### ========================================
+### DATOS - CRUD
+### ========================================
+
+### Listar todos los registros de una tabla
+GET {{baseUrl}}/datos/productos
+
+### Listar con parámetros
+GET {{baseUrl}}/datos/productos?limit=10&offset=0&order=nombre
+
+### Obtener un registro específico
+GET {{baseUrl}}/datos/productos/1
+
+### Crear nuevo registro
+POST {{baseUrl}}/datos/productos
+Content-Type: application/json
+
+{
+  "nombre": "Laptop Dell",
+  "descripcion": "Laptop de alta gama",
+  "precio": 1200.50,
+  "stock": 10,
+  "activo": true
+}
+
+### Actualizar registro
+PUT {{baseUrl}}/datos/productos/1
+Content-Type: application/json
+
+{
+  "precio": 1150.00,
+  "stock": 8
+}
+
+### Eliminar registro
+DELETE {{baseUrl}}/datos/productos/1
+
+### ========================================
+### BÚSQUEDAS AVANZADAS
+### ========================================
+
+### Búsqueda con filtros simples
+POST {{baseUrl}}/datos/productos/buscar
+Content-Type: application/json
+
+{
+  "filtros": {
+    "activo": true,
+    "stock": 10
+  },
+  "select": "id,nombre,precio",
+  "limit": 20,
+  "order": "precio"
+}
+
+### Búsqueda con filtros avanzados
+POST {{baseUrl}}/datos/productos/buscar
+Content-Type: application/json
+
+{
+  "filtros": {
+    "precio": { "operador": "gte", "valor": 100 },
+    "stock": { "operador": "gt", "valor": 0 },
+    "activo": true
+  },
+  "select": "*",
+  "limit": 50,
+  "order": "nombre"
+}
+
+### Búsqueda con LIKE
+POST {{baseUrl}}/datos/productos/buscar
+Content-Type: application/json
+
+{
+  "filtros": {
+    "nombre": { "operador": "ilike", "valor": "%laptop%" }
+  },
+  "order": "precio"
+}
